@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <title>Проєкт Шевченка — візуалізації та креслення</title>
 <meta name="description" content="Дизайн-проєкт: візуалізації інтер'єру 1-го та 2-го поверхів, повний комплект креслень і PDF для завантаження.">
 <meta property="og:type" content="website">
@@ -21,7 +21,10 @@
   --text:#f0ede6; --muted:#a39d90; --accent:#c9a273; --line:#2c2a26;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+/* pan-x pan-y — гортати можна, масштабувати сторінку ні: інакше випадковий
+   жест по мініатюрі збільшує весь сайт і повернути назад майже неможливо.
+   Самі зображення масштабуються всередині перегляду власним зумом. */
+html{scroll-behavior:smooth;touch-action:pan-x pan-y}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
 a{color:inherit}
@@ -144,6 +147,12 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
 <script src="data.js"></script>
 <script>
 (function(){
+  // Safari на iPhone ігнорує user-scalable=no, тож його власні жести масштабування
+  // сторінки гасимо вручну. Зум зображень це не зачіпає — він свій, у перегляді.
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function(t){
+    document.addEventListener(t, function(e){ e.preventDefault(); }, { passive: false });
+  });
+
   var D = window.GALLERY_DATA;
   var app = document.getElementById('app');
   var flat = []; // глобальний список для лайтбокса
