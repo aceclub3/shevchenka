@@ -48,13 +48,16 @@ a{color:inherit}
 
 /* ── Секції ── */
 main{max-width:1200px;margin:0 auto;padding:10px 14px 40px}
-section{padding-top:34px}
+section{padding-top:34px;scroll-margin-top:52px}
 .sechead{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
 .sechead h2{font-size:clamp(20px,3.4vw,28px);font-weight:700;letter-spacing:-.01em}
 .sechead .count{color:var(--muted);font-size:14px}
 .grid{columns:2 320px;column-gap:10px}
 @media(max-width:520px){.grid{columns:1}}
 @media(min-width:1100px){.grid{columns:3 300px}}
+/* креслення — однакові пропорції, тому звичайна сітка зліва направо */
+.grid.rows{columns:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:10px}
+.grid.rows a.ph{margin-bottom:0}
 .grid a.ph{display:block;margin-bottom:10px;break-inside:avoid;border-radius:10px;overflow:hidden;background:var(--card);position:relative}
 .grid a.ph img{width:100%;height:auto;transition:transform .25s ease,opacity .3s;opacity:0}
 .grid a.ph img.ld{opacity:1}
@@ -166,7 +169,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     }
 
     var grid = document.createElement('div');
-    grid.className = 'grid';
+    grid.className = 'grid' + (s.key === 'dwg' ? ' rows' : '');
     s.items.forEach(function(it, i){
       var gi = flat.length;
       flat.push({ src: it.src, cap: s.title, tag: (s.key==='dwg' ? 'Аркуш ' + (i+1) : (i+1) + ' / ' + s.items.length) });
