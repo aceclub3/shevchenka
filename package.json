@@ -1,0 +1,15 @@
+{
+  "name": "shevchenka-site-build",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Збірка сайту-галереї: стиснення фото у WebP + рендер PDF креслень",
+  "type": "commonjs",
+  "scripts": {
+    "build": "node process.mjs"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.5",
+    "pdfjs-dist": "^6.2.108",
+    "sharp": "^0.35.3"
+  }
+}
