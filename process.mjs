@@ -119,8 +119,9 @@ manifest.pdf = { href: 'files/kreslennya.pdf', mb: (fs.statSync(pdfPath).size / 
 fs.writeFileSync(path.join(OUT, 'data.js'), 'window.GALLERY_DATA = ' + JSON.stringify(manifest) + ';\n');
 fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 1));
 
-// Підсумок розміру
+// Підсумок розміру — рахуємо лише те, що реально публікується
+const SKIP = new Set(['node_modules', '.git']);
 let total = 0;
-(function walk(d) { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const fp = path.join(d, e.name); if (e.isDirectory()) walk(fp); else total += fs.statSync(fp).size; } })(OUT);
-console.log(`SITE TOTAL: ${(total / 1048576).toFixed(1)} MB`);
+(function walk(d) { for (const e of fs.readdirSync(d, { withFileTypes: true })) { if (SKIP.has(e.name)) continue; const fp = path.join(d, e.name); if (e.isDirectory()) walk(fp); else total += fs.statSync(fp).size; } })(OUT);
+console.log(`SITE TOTAL: ${(total / 1048576).toFixed(1)} MB (ліміт GitHub Pages — 1024 MB)`);
 console.log('DONE');
