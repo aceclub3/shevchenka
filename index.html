@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проєкт Шевченка — візуалізації та креслення</title>
+<meta name="description" content="Дизайн-проєкт: візуалізації інтер'єру 1-го та 2-го поверхів, повний комплект креслень і PDF для завантаження.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Проєкт Шевченка">
+<meta property="og:description" content="Візуалізації інтер'єру (1-й та 2-й поверхи) та креслення. PDF доступний для завантаження.">
+<meta property="og:image" content="https://aceclub3.github.io/shevchenka/og.jpg">
+<meta property="og:url" content="https://aceclub3.github.io/shevchenka/">
+<meta property="og:locale" content="uk_UA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#111110">
+<link rel="canonical" href="https://aceclub3.github.io/shevchenka/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+<style>
+:root{
+  --bg:#111110; --bg2:#1a1917; --card:#1e1d1a;
+  --text:#f0ede6; --muted:#a39d90; --accent:#c9a273; --line:#2c2a26;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+
+/* ── Шапка ── */
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:4px;padding:10px 14px;background:rgba(17,17,16,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.topbar::-webkit-scrollbar{display:none}
+.topbar .brand{font-weight:700;letter-spacing:.02em;white-space:nowrap;margin-right:8px;font-size:15px}
+.topbar a.nav{white-space:nowrap;text-decoration:none;font-size:13.5px;color:var(--muted);padding:6px 11px;border-radius:99px;transition:.15s}
+.topbar a.nav:hover{color:var(--text);background:var(--bg2)}
+.topbar a.pdfbtn{margin-left:auto;white-space:nowrap;text-decoration:none;font-size:13px;font-weight:600;color:#161511;background:var(--accent);padding:7px 13px;border-radius:99px}
+
+/* ── Hero ── */
+.hero{position:relative;height:min(72vh,640px);min-height:340px;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover;filter:brightness(.92)}
+.hero .shade{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(17,17,16,.25) 45%,rgba(17,17,16,.15) 100%)}
+.hero .inner{position:absolute;left:0;right:0;bottom:0;padding:28px 20px 34px;max-width:1200px;margin:0 auto}
+.hero h1{font-size:clamp(30px,6vw,54px);font-weight:800;letter-spacing:-.01em;line-height:1.1}
+.hero p{color:#d8d3c8;margin-top:10px;font-size:clamp(14px,2.2vw,17px);max-width:640px}
+.hero .stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.hero .chip{font-size:12.5px;color:var(--text);background:rgba(30,29,26,.75);border:1px solid var(--line);padding:5px 12px;border-radius:99px;backdrop-filter:blur(6px)}
+
+/* ── Секції ── */
+main{max-width:1200px;margin:0 auto;padding:10px 14px 40px}
+section{padding-top:34px}
+.sechead{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.sechead h2{font-size:clamp(20px,3.4vw,28px);font-weight:700;letter-spacing:-.01em}
+.sechead .count{color:var(--muted);font-size:14px}
+.grid{columns:2 320px;column-gap:10px}
+@media(max-width:520px){.grid{columns:1}}
+@media(min-width:1100px){.grid{columns:3 300px}}
+.grid a.ph{display:block;margin-bottom:10px;break-inside:avoid;border-radius:10px;overflow:hidden;background:var(--card);position:relative}
+.grid a.ph img{width:100%;height:auto;transition:transform .25s ease,opacity .3s;opacity:0}
+.grid a.ph img.ld{opacity:1}
+@media(hover:hover){.grid a.ph:hover img{transform:scale(1.025)}}
+.grid a.ph .tag{position:absolute;left:8px;bottom:8px;font-size:11.5px;background:rgba(17,17,16,.72);padding:3px 9px;border-radius:99px;color:#e8e4da;backdrop-filter:blur(4px)}
+
+/* ── Блок PDF ── */
+.pdfcard{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:18px}
+.pdfcard .ico{font-size:30px}
+.pdfcard .t{flex:1;min-width:180px}
+.pdfcard .t b{font-size:15.5px}
+.pdfcard .t div{color:var(--muted);font-size:13px;margin-top:2px}
+.pdfcard a.dl{text-decoration:none;font-weight:600;font-size:14px;color:#161511;background:var(--accent);padding:10px 18px;border-radius:10px;white-space:nowrap}
+
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center;padding:22px 14px 30px}
+
+/* ── Лайтбокс ── */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(8,8,7,.97);display:none;touch-action:pan-y}
+.lb.open{display:block}
+.lb .stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.lb .stage img{max-width:100vw;max-height:100dvh;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.lb .bar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(rgba(8,8,7,.75),transparent);z-index:2}
+.lb .cap{font-size:13.5px;color:#ddd8cd}
+.lb .cnt{font-size:13px;color:var(--muted)}
+.lb .full{margin-left:auto;font-size:13px;color:#ddd8cd;text-decoration:none;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px}
+.lb button{appearance:none;border:0;cursor:pointer;background:rgba(40,38,34,.8);color:#eee;border-radius:99px;display:flex;align-items:center;justify-content:center}
+.lb .x{width:38px;height:38px;font-size:17px}
+.lb .nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:64px;font-size:24px;z-index:2}
+.lb .prev{left:8px}.lb .next{right:8px}
+@media(max-width:640px){.lb .nav{width:38px;height:52px;font-size:20px}}
+.lb .spin{position:absolute;width:34px;height:34px;border:3px solid #3a382f;border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite;display:none}
+.lb.loading .spin{display:block}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <span class="brand">Проєкт Шевченка</span>
+  <a class="nav" href="#f1">1-й поверх</a>
+  <a class="nav" href="#f2">2-й поверх</a>
+  <a class="nav" href="#dwg">Креслення</a>
+  <a class="pdfbtn" href="files/kreslennya.pdf" download="Креслення — проєкт Шевченка.pdf">PDF ↓</a>
+</nav>
+
+<header class="hero">
+  <img id="heroImg" alt="Візуалізація інтер'єру">
+  <div class="shade"></div>
+  <div class="inner">
+    <h1>Проєкт Шевченка</h1>
+    <p>Дизайн-проєкт інтер'єру: повні візуалізації першого та другого поверхів і робочі креслення.</p>
+    <div class="stats" id="heroStats"></div>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer>Проєкт Шевченка · матеріали дизайн-проєкту · оновлено серпень 2026</footer>
+
+<div class="lb" id="lb" aria-modal="true" role="dialog">
+  <div class="stage"><div class="spin"></div><img id="lbImg" alt=""></div>
+  <div class="bar">
+    <button class="x" id="lbClose" aria-label="Закрити">✕</button>
+    <span class="cap" id="lbCap"></span>
+    <span class="cnt" id="lbCnt"></span>
+    <a class="full" id="lbFull" target="_blank" rel="noopener">Повний розмір ↗</a>
+  </div>
+  <button class="nav prev" id="lbPrev" aria-label="Попереднє">‹</button>
+  <button class="nav next" id="lbNext" aria-label="Наступне">›</button>
+</div>
+
+<noscript><p style="padding:20px;text-align:center">Для перегляду галереї увімкніть JavaScript. Креслення: <a href="files/kreslennya.pdf">завантажити PDF</a>.</p></noscript>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  var D = window.GALLERY_DATA;
+  var app = document.getElementById('app');
+  var flat = []; // глобальний список для лайтбокса
+
+  // hero
+  document.getElementById('heroImg').src = D.hero.src;
+  var st = document.getElementById('heroStats');
+  D.sections.forEach(function(s){
+    var c = document.createElement('span');
+    c.className = 'chip';
+    c.textContent = s.title.replace('Візуалізації — ','') + ' · ' + s.items.length + (s.key==='dwg' ? ' арк.' : ' фото');
+    st.appendChild(c);
+  });
+
+  // секції
+  D.sections.forEach(function(s){
+    var sec = document.createElement('section');
+    sec.id = s.key;
+    var head = document.createElement('div');
+    head.className = 'sechead';
+    head.innerHTML = '<h2>' + s.title + '</h2><span class="count">' + s.items.length + (s.key==='dwg' ? ' аркушів' : ' фото') + '</span>';
+    sec.appendChild(head);
+
+    if (s.key === 'dwg') {
+      var pc = document.createElement('div');
+      pc.className = 'pdfcard';
+      pc.innerHTML = '<span class="ico">📐</span><div class="t"><b>Креслення.pdf</b><div>Повний комплект робочих креслень · ' + D.pdf.mb + ' МБ · ' + s.items.length + ' аркушів</div></div>' +
+        '<a class="dl" href="' + D.pdf.href + '" download="Креслення — проєкт Шевченка.pdf">Завантажити PDF</a>';
+      sec.appendChild(pc);
+    }
+
+    var grid = document.createElement('div');
+    grid.className = 'grid';
+    s.items.forEach(function(it, i){
+      var gi = flat.length;
+      flat.push({ src: it.src, cap: s.title, tag: (s.key==='dwg' ? 'Аркуш ' + (i+1) : (i+1) + ' / ' + s.items.length) });
+      var a = document.createElement('a');
+      a.className = 'ph';
+      a.href = it.src;
+      var im = document.createElement('img');
+      im.loading = 'lazy';
+      im.decoding = 'async';
+      im.src = it.thumb;
+      im.width = it.w; im.height = it.h;
+      im.alt = s.title + ', зображення ' + (i+1);
+      im.onload = function(){ im.classList.add('ld'); };
+      if (im.complete) im.classList.add('ld');
+      a.appendChild(im);
+      if (s.key === 'dwg') {
+        var t = document.createElement('span');
+        t.className = 'tag';
+        t.textContent = 'Аркуш ' + (i+1);
+        a.appendChild(t);
+      }
+      a.addEventListener('click', function(e){ e.preventDefault(); open(gi); });
+      grid.appendChild(a);
+    });
+    sec.appendChild(grid);
+    app.appendChild(sec);
+  });
+
+  // ── лайтбокс ──
+  var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'),
+      lbCap = document.getElementById('lbCap'), lbCnt = document.getElementById('lbCnt'),
+      lbFull = document.getElementById('lbFull');
+  var cur = -1, isOpen = false;
+
+  function show(i){
+    cur = (i + flat.length) % flat.length;
+    var it = flat[cur];
+    lb.classList.add('loading');
+    lbImg.src = it.src;
+    lbImg.onload = function(){ lb.classList.remove('loading'); };
+    lbCap.textContent = it.cap;
+    lbCnt.textContent = it.tag;
+    lbFull.href = it.src;
+    // передзавантаження сусідів
+    [cur+1, cur-1].forEach(function(n){
+      var p = new Image(); p.src = flat[(n + flat.length) % flat.length].src;
+    });
+  }
+  function open(i){
+    show(i);
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (!isOpen) { history.pushState({lb:1}, ''); isOpen = true; }
+  }
+  function close(fromPop){
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+    if (isOpen && !fromPop) history.back();
+    isOpen = false;
+  }
+  window.addEventListener('popstate', function(){ if (isOpen) close(true); });
+  document.getElementById('lbClose').addEventListener('click', function(){ close(false); });
+  document.getElementById('lbPrev').addEventListener('click', function(){ show(cur-1); });
+  document.getElementById('lbNext').addEventListener('click', function(){ show(cur+1); });
+  lb.addEventListener('click', function(e){ if (e.target === lb || e.target.classList.contains('stage')) close(false); });
+  document.addEventListener('keydown', function(e){
+    if (!isOpen) return;
+    if (e.key === 'Escape') close(false);
+    else if (e.key === 'ArrowLeft') show(cur-1);
+    else if (e.key === 'ArrowRight') show(cur+1);
+  });
+  // свайпи
+  var tx = 0, ty = 0;
+  lb.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive:true});
+  lb.addEventListener('touchend', function(e){
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { if (dx < 0) show(cur+1); else show(cur-1); }
+  }, {passive:true});
+})();
+</script>
+</body>
+</html>
