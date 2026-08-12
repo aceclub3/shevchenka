@@ -85,8 +85,9 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
 .lb .zoomchip{display:none;flex:none;font-size:13px;color:#ddd8cd;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px;white-space:nowrap;cursor:pointer}
 .lb.zoomed .zoomchip{display:block}
 .lb .bar{position:absolute;top:0;left:0;right:0;display:flex;flex-wrap:nowrap;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(rgba(8,8,7,.8),transparent);z-index:2}
-.lb .cap{font-size:13.5px;color:#ddd8cd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.lb .cnt{font-size:13px;color:var(--muted);white-space:nowrap;flex:none}
+/* підписи — «пігулками», бо під ними може бути біле креслення */
+.lb .cap{font-size:13px;color:#ddd8cd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px}
+.lb .cnt{font-size:13px;color:#ddd8cd;white-space:nowrap;flex:none;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px}
 .lb .full{margin-left:auto;flex:none;font-size:13px;color:#ddd8cd;text-decoration:none;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px;white-space:nowrap}
 @media(max-width:560px){.lb .cap{display:none}.lb .full .fl{display:none}.lb .full{padding:7px 11px;font-size:15px}}
 .lb button{appearance:none;border:0;cursor:pointer;background:rgba(40,38,34,.8);color:#eee;border-radius:99px;display:flex;align-items:center;justify-content:center}
