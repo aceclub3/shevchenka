@@ -211,7 +211,8 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   function capOf(k){
     if (isDwg(k)) { var p = pageOf(k); return planTitle[p] || ('Ескіз меблів · аркуш ' + p); }
     var m = C.photos[k];
-    return m ? roomOf[m.room] : '';
+    // кадр може охоплювати кілька приміщень — показуємо всі
+    return m ? m.rooms.map(function(r){ return roomOf[r]; }).join(' · ') : '';
   }
   function noOf(k){ var m = C.photos[k]; return m ? m.no : (isDwg(k) ? 'арк. ' + pageOf(k) : ''); }
   function subjectOf(k){ var m = C.photos[k]; return m ? m.subject : ''; }
@@ -275,9 +276,12 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   vRooms.appendChild(note);
 
   var keysByRoom = {};
-  Object.keys(C.photos).forEach(function(k){ (keysByRoom[C.photos[k].room] = keysByRoom[C.photos[k].room] || []).push(k); });
+  Object.keys(C.photos).forEach(function(k){
+    C.photos[k].rooms.forEach(function(r){ (keysByRoom[r] = keysByRoom[r] || []).push(k); });
+  });
   C.rooms.forEach(function(r){ if (keysByRoom[r.id]) keysByRoom[r.id].sort(); });
-  var allPhotoKeys = C.rooms.reduce(function(acc, r){ return acc.concat(keysByRoom[r.id] || []); }, []);
+  // рахуємо УНІКАЛЬНІ кадри: спільний для двох кімнат кадр не має рахуватись двічі
+  var uniquePhotos = Object.keys(C.photos).length;
 
   var filters = document.createElement('div');
   filters.className = 'filters';
@@ -303,7 +307,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     b.addEventListener('click', function(){ renderRoom(id); scrollToMain(); });
     filters.appendChild(b);
   }
-  addFilter('all', 'Усі', allPhotoKeys.length);
+  addFilter('all', 'Усі', uniquePhotos);
   [1, 2, 0].forEach(function(fl){
     var rs = C.rooms.filter(function(r){ return r.floor === fl && (keysByRoom[r.id] || []).length; });
     if (!rs.length) return;
