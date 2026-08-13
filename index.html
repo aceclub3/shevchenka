@@ -249,7 +249,11 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   }
 
   // ── hero ──
-  document.getElementById('heroImg').src = full(D.hero.key + '/' + D.hero.id);
+  var heroKey = D.hero.key + '/' + D.hero.id, heroImg = document.getElementById('heroImg');
+  heroImg.sizes = '100vw';
+  heroImg.srcset = srcsetOf(heroKey) + (D.hero.big ? ', ' + D.hero.big + ' ' + D.hero.bigW + 'w' : '');
+  heroImg.src = D.hero.big || full(heroKey);
+  heroImg.setAttribute('fetchpriority', 'high');
   var photoCount = Object.keys(C.photos).length;
   ['1-й поверх — 106,4 м²', '2-й поверх — 54,1 м²', photoCount + ' візуалізацій',
    C.furniture.length + ' предметів меблів', C.sheets.length + ' аркушів креслень']

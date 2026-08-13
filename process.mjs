@@ -84,14 +84,21 @@ for (const sec of sections) {
   manifest.sections.push({ key: sec.key, title: sec.title, items });
 }
 
-// OG-зображення для прев'ю посилання
+// Шапка й OG-прев'ю. Окремий файл для шапки потрібен, бо вона розтягнута на всю
+// ширину екрана: найбільший розмір із сітки (900 px) для неї замалий, а повний
+// файл на 3000 px — це 0,5 МБ на першому ж екрані.
 const f1 = manifest.sections[0].items;
 const hero = f1.find(i => i.w > i.h) || f1[0];
-await sharp(path.join(SRC, sections[0].dir, hero.orig), { limitInputPixels: 1e9 })
+const heroSrc = path.join(SRC, sections[0].dir, hero.orig);
+const HERO_W = 1800;
+const heroFile = await sharp(heroSrc, { limitInputPixels: 1e9 })
+  .rotate().resize({ width: HERO_W, withoutEnlargement: true }).webp({ quality: 80 })
+  .toFile(path.join(IMG, 'hero.webp'));
+await sharp(heroSrc, { limitInputPixels: 1e9 })
   .rotate().resize({ width: 1200, height: 630, fit: 'cover' }).jpeg({ quality: 80 })
   .toFile(path.join(OUT, 'og.jpg'));
-manifest.hero = { key: 'f1', id: hero.id, w: hero.w, h: hero.h };
-console.log('OG-зображення з', hero.orig);
+manifest.hero = { key: 'f1', id: hero.id, w: hero.w, h: hero.h, big: 'img/hero.webp', bigW: heroFile.width };
+console.log(`шапка ${heroFile.width}px (${Math.round(heroFile.size / 1024)} КБ) і OG — з ${hero.orig}`);
 
 // Креслення: кожна сторінка PDF → зображення
 const pdfPath = path.join(SRC, 'Креслення.pdf');

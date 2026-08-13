@@ -1286,7 +1286,9 @@
   "key": "f1",
   "id": "046",
   "w": 3000,
-  "h": 2376
+  "h": 2376,
+  "big": "img/hero.webp",
+  "bigW": 1800
  },
  "pdf": {
   "href": "files/kreslennya.pdf",
