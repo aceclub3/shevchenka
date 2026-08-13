@@ -85,9 +85,12 @@ main{max-width:1200px;margin:0 auto;padding:0 14px 44px}
 .fcard.hl{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .fcard .top{display:flex;gap:14px;align-items:flex-start}
 @media(max-width:600px){.fcard .top{flex-direction:column}}
-.fcard .dwg{flex:none;width:330px;max-width:100%;border-radius:9px;overflow:hidden;background:#fff;cursor:pointer;border:0;padding:0;display:block}
+.fcard .dwg{flex:none;width:330px;max-width:100%;border-radius:9px;overflow:hidden;background:#fff;cursor:pointer;border:0;padding:0;display:block;position:relative}
 @media(max-width:600px){.fcard .dwg{width:100%}}
 .fcard .dwg img{width:100%;height:auto}
+/* Обрізка аркуша до потрібної позиції: зображення одне, змінюється лише вікно перегляду. */
+.fcard .dwg.crop img{position:absolute;top:0;left:0;max-width:none}
+.fcard .dwg .zoomhint{position:absolute;right:6px;bottom:6px;font-size:10.5px;background:rgba(12,12,11,.72);color:#e8e4da;padding:3px 7px;border-radius:6px;pointer-events:none}
 .fcard .meta{flex:1;min-width:0}
 .fcard .kind{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--card);color:var(--muted);margin-bottom:6px}
 .fcard h3{font-size:17px;font-weight:700;letter-spacing:-.01em}
@@ -119,7 +122,11 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
 .lb{position:fixed;inset:0;z-index:100;background:rgba(8,8,7,.97);display:none;touch-action:none}
 .lb.open{display:block}
 .lb .stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.lb .stage img{max-width:100vw;max-height:100dvh;object-fit:contain;user-select:none;-webkit-user-drag:none;transform-origin:50% 50%}
+/* обгортка зображення: рамка позиції має рухатись і масштабуватись разом із ним */
+.lb .canvas{position:relative;display:inline-block;line-height:0;transform-origin:50% 50%}
+.lb .stage img{max-width:100vw;max-height:100dvh;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.lb .hl{display:none;position:absolute;border:2px solid var(--accent);border-radius:3px;box-shadow:0 0 0 9999px rgba(8,8,7,.62);pointer-events:none}
+.lb .hl.on{display:block}
 .lb.zoomed .stage img{cursor:grab}
 .lb.zoomed .stage img:active{cursor:grabbing}
 .lb .zoomchip{display:none;flex:none;font-size:13px;color:#ddd8cd;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px;white-space:nowrap;cursor:pointer}
@@ -166,7 +173,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
 <footer>Проєкт Шевченка · матеріали дизайн-проєкту · оновлено серпень 2026</footer>
 
 <div class="lb" id="lb" aria-modal="true" role="dialog">
-  <div class="stage"><div class="spin"></div><img id="lbImg" alt=""></div>
+  <div class="stage"><div class="spin"></div><div class="canvas" id="lbCanvas"><img id="lbImg" alt=""><div class="hl" id="lbHl"></div></div></div>
   <div class="bar">
     <button class="x" id="lbClose" aria-label="Закрити">✕</button>
     <span class="cap" id="lbCap"></span>
@@ -333,6 +340,13 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   var fFilters = document.createElement('div');
   fFilters.className = 'filters';
   var fList = document.createElement('div');
+  // скільки позицій ділять одну рамку — складений вузол показуємо чесно
+  var boxGroup = {};
+  C.furniture.forEach(function(f){
+    if (!f.box) return;
+    var k = f.sheet + '|' + f.box.x + '|' + f.box.y;
+    boxGroup[k] = (boxGroup[k] || 0) + 1;
+  });
 
   function fCard(f){
     var card = document.createElement('div');
@@ -343,16 +357,40 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     var top = document.createElement('div');
     top.className = 'top';
     var btn = document.createElement('button');
-    btn.className = 'dwg';
     var di = document.createElement('img');
     di.loading = 'lazy'; di.decoding = 'async';
-    di.sizes = '(max-width:600px) 100vw, 330px';
     di.srcset = srcsetOf(dk);
     di.src = at(dk, WIDTHS[1] || WIDTHS[0]);
-    di.width = de.it.w; di.height = de.it.h;
     di.alt = 'Креслення: ' + f.title;
-    btn.appendChild(di);
-    btn.addEventListener('click', function(){ open([dk], 0); });
+
+    // Якщо відомо, де саме на аркуші ця позиція, показуємо тільки її фрагмент.
+    // Файл той самий — змінюється лише вікно перегляду.
+    var box = f.box;
+    if (box) {
+      var P = 0.015;                                   // трохи повітря навколо
+      var bx = Math.max(0, box.x - P), by = Math.max(0, box.y - P);
+      var bw = Math.min(1 - bx, box.w + 2 * P), bh = Math.min(1 - by, box.h + 2 * P);
+      btn.className = 'dwg crop';
+      btn.style.aspectRatio = (bw * de.it.w) + ' / ' + (bh * de.it.h);
+      di.style.width = (100 / bw) + '%';
+      di.style.left = (-100 * bx / bw) + '%';
+      di.style.top = (-100 * by / bh) + '%';
+      di.sizes = '(max-width:600px) calc(100vw / ' + bw.toFixed(3) + '), ' + Math.round(330 / bw) + 'px';
+      btn.appendChild(di);
+      var hint = document.createElement('span');
+      hint.className = 'zoomhint';
+      var together = boxGroup[f.sheet + '|' + box.x + '|' + box.y] || 1;
+      hint.textContent = together > 1
+        ? 'вузол на аркуші ' + f.sheet + ' — тут ' + together + ' позиції'
+        : 'фрагмент аркуша ' + f.sheet;
+      btn.appendChild(hint);
+    } else {
+      btn.className = 'dwg';
+      di.width = de.it.w; di.height = de.it.h;
+      di.sizes = '(max-width:600px) 100vw, 330px';
+      btn.appendChild(di);
+    }
+    btn.addEventListener('click', function(){ open([dk], 0, box); });
     top.appendChild(btn);
 
     var meta = document.createElement('div');
@@ -522,12 +560,21 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'),
       lbCap = document.getElementById('lbCap'), lbCnt = document.getElementById('lbCnt'),
       lbFull = document.getElementById('lbFull');
-  var list = [], cur = -1, isOpen = false, token = 0;
+  var canvas = document.getElementById('lbCanvas'), hlEl = document.getElementById('lbHl');
+  var list = [], cur = -1, isOpen = false, token = 0, hlBox = null;
 
   function show(i){
     cur = (i + list.length) % list.length;
     var k = list[cur];
     resetZoom(false);
+    // рамка позиції — тільки на тому аркуші, з якого її відкрили
+    if (hlBox && cur === 0) {
+      hlEl.style.left = (hlBox.x * 100) + '%';
+      hlEl.style.top = (hlBox.y * 100) + '%';
+      hlEl.style.width = (hlBox.w * 100) + '%';
+      hlEl.style.height = (hlBox.h * 100) + '%';
+      hlEl.classList.add('on');
+    } else hlEl.classList.remove('on');
     var my = ++token;
     lb.classList.add('loading');
     lbImg.src = at(k, WIDTHS[2] || WIDTHS[WIDTHS.length - 1]);
@@ -541,8 +588,9 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     lbFull.href = full(k);
     [cur + 1, cur - 1].forEach(function(x){ var p = new Image(); p.src = full(list[(x + list.length) % list.length]); });
   }
-  function open(items, i){
+  function open(items, i, box){
     list = items;
+    hlBox = box || null;
     show(i);
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -574,14 +622,14 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   var sc = 1, ox = 0, oy = 0;
 
   function applyTf(anim){
-    lbImg.style.transition = anim ? 'transform .18s ease-out' : 'none';
-    lbImg.style.transform = 'translate(' + ox + 'px,' + oy + 'px) scale(' + sc + ')';
+    canvas.style.transition = anim ? 'transform .18s ease-out' : 'none';
+    canvas.style.transform = 'translate(' + ox + 'px,' + oy + 'px) scale(' + sc + ')';
     lb.classList.toggle('zoomed', sc > 1.01);
     zoomBtn.textContent = Math.round(sc * 100) + '%';
   }
   function clampPan(){
-    var mx = Math.max(0, (lbImg.offsetWidth * sc - stage.clientWidth) / 2);
-    var my = Math.max(0, (lbImg.offsetHeight * sc - stage.clientHeight) / 2);
+    var mx = Math.max(0, (canvas.offsetWidth * sc - stage.clientWidth) / 2);
+    var my = Math.max(0, (canvas.offsetHeight * sc - stage.clientHeight) / 2);
     ox = Math.min(mx, Math.max(-mx, ox));
     oy = Math.min(my, Math.max(-my, oy));
   }
