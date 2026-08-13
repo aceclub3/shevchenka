@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <title>Проєкт Шевченка — візуалізації та креслення</title>
-<meta name="description" content="Дизайн-проєкт: візуалізації по кімнатах, креслення меблів індивідуального виготовлення з розмірами, робочі плани і PDF для завантаження.">
+<meta name="description" content="Дизайн-проєкт: візуалізації по кімнатах, меблі індивідуального виготовлення з розмірами, робочі плани і PDF для завантаження.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Проєкт Шевченка">
 <meta property="og:description" content="Візуалізації по кімнатах, меблі з кресленнями й розмірами, робочі плани. PDF доступний для завантаження.">
@@ -29,7 +29,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 img{display:block;max-width:100%;height:auto}
 a{color:inherit}
 
-/* ── Шапка ── */
 .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(17,17,16,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .topbar .brand{font-weight:700;letter-spacing:.02em;white-space:nowrap;font-size:15px}
 .topbar .links{flex:1;min-width:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -40,7 +39,6 @@ a{color:inherit}
 .topbar a.pdfbtn{flex:none;white-space:nowrap;text-decoration:none;font-size:13px;font-weight:600;color:#161511;background:var(--accent);padding:7px 13px;border-radius:99px}
 @media(max-width:620px){.topbar .brand{display:none}.topbar button.tab{padding:6px 10px}}
 
-/* ── Hero ── */
 .hero{position:relative;height:min(62vh,560px);min-height:300px;overflow:hidden}
 .hero img{width:100%;height:100%;object-fit:cover;filter:brightness(.92)}
 .hero .shade{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(17,17,16,.86) 22%,rgba(17,17,16,.3) 55%,rgba(17,17,16,.15) 100%)}
@@ -54,19 +52,18 @@ main{max-width:1200px;margin:0 auto;padding:0 14px 44px}
 .view{display:none;padding-top:22px}
 .view.on{display:block}
 
-/* ── Фільтр кімнат ── */
-.filters{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:6px}
+.filters{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
 .filters .flabel{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;width:100%;margin-top:10px}
 .filters button{appearance:none;border:1px solid var(--line);cursor:pointer;font:inherit;font-size:13px;color:var(--text);background:var(--bg2);padding:6px 12px;border-radius:99px;transition:.15s}
 .filters button:hover{border-color:#413d36}
 .filters button.on{background:var(--text);color:#161511;border-color:var(--text);font-weight:600}
 .filters button .n{opacity:.55;font-size:11.5px;margin-left:5px}
 
-.sechead{display:flex;align-items:baseline;gap:12px;margin:26px 0 14px}
+.sechead{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;margin:26px 0 14px}
 .sechead h2{font-size:clamp(19px,3.2vw,26px);font-weight:700;letter-spacing:-.01em}
 .sechead .count{color:var(--muted);font-size:13.5px}
+.sechead .note{color:var(--accent);font-size:12.5px;width:100%;margin-top:-2px}
 
-/* ── Сітка фото: колонки задані явно, щоб браузер точно знав ширину плитки ── */
 .grid{columns:2;column-gap:10px;margin-top:14px}
 @media(min-width:560px){.grid{columns:3}}
 @media(min-width:900px){.grid{columns:4}}
@@ -74,33 +71,39 @@ main{max-width:1200px;margin:0 auto;padding:0 14px 44px}
 .grid a.ph img{width:100%;height:auto;transition:transform .25s ease,opacity .3s;opacity:0}
 .grid a.ph img.ld{opacity:1}
 @media(hover:hover){.grid a.ph:hover img{transform:scale(1.03)}}
-.grid a.ph .tag{position:absolute;left:7px;bottom:7px;right:7px;font-size:11px;line-height:1.3;background:rgba(17,17,16,.78);padding:4px 8px;border-radius:8px;color:#e8e4da;backdrop-filter:blur(4px);opacity:0;transition:opacity .18s}
+/* Номер фото. Тимчасовий, щоб власник міг вказати, що куди перекласти. */
+.no{position:absolute;left:6px;top:6px;font-size:11px;font-weight:700;letter-spacing:.03em;font-variant-numeric:tabular-nums;background:rgba(12,12,11,.82);color:var(--accent);padding:3px 7px;border-radius:6px;backdrop-filter:blur(4px);pointer-events:none}
+.grid a.ph .tag{position:absolute;left:6px;bottom:6px;right:6px;font-size:11px;line-height:1.3;background:rgba(17,17,16,.8);padding:4px 8px;border-radius:8px;color:#e8e4da;backdrop-filter:blur(4px);opacity:0;transition:opacity .18s}
 @media(hover:hover){.grid a.ph:hover .tag{opacity:1}}
 .grid.rows{columns:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:10px}
 .grid.rows a.ph{margin-bottom:0}
 .grid.rows a.ph .tag{opacity:1;position:static;background:none;padding:7px 9px;font-size:12px;backdrop-filter:none}
 .grid.rows a.ph img{background:#fff}
 
-/* ── Меблі ── */
-.fcard{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+/* ── Меблі: одна картка = одна позиція ── */
+.fcard{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px;scroll-margin-top:70px}
+.fcard.hl{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .fcard .top{display:flex;gap:14px;align-items:flex-start}
 @media(max-width:600px){.fcard .top{flex-direction:column}}
-.fcard .dwg{flex:none;width:360px;max-width:100%;border-radius:9px;overflow:hidden;background:#fff;cursor:pointer;border:0;padding:0;display:block}
-.fcard .dwg img{width:100%;height:auto}
+.fcard .dwg{flex:none;width:330px;max-width:100%;border-radius:9px;overflow:hidden;background:#fff;cursor:pointer;border:0;padding:0;display:block}
 @media(max-width:600px){.fcard .dwg{width:100%}}
+.fcard .dwg img{width:100%;height:auto}
 .fcard .meta{flex:1;min-width:0}
+.fcard .kind{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--card);color:var(--muted);margin-bottom:6px}
 .fcard h3{font-size:17px;font-weight:700;letter-spacing:-.01em}
 .fcard .sub{color:var(--accent);font-size:12.5px;margin-top:3px}
 .fcard dl{margin-top:9px;display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13.5px}
 .fcard dt{color:var(--muted);white-space:nowrap}
 .fcard dd{color:#ded9cf}
+.fcard .share{margin-top:11px;appearance:none;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-size:12.5px;padding:6px 12px;border-radius:99px;cursor:pointer}
+.fcard .share:hover{border-color:#413d36}
 .fcard .strip{margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
 .fcard .strip .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
 .fcard .strip .row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin;padding-bottom:4px}
-.fcard .strip .row a{flex:none;width:112px;border-radius:8px;overflow:hidden;background:var(--card)}
+.fcard .strip .row a{flex:none;width:112px;border-radius:8px;overflow:hidden;background:var(--card);position:relative}
 .fcard .strip .row img{width:112px;height:112px;object-fit:cover}
+.fcard .strip .row .no{left:4px;top:4px;font-size:10px;padding:2px 5px}
 
-/* ── PDF ── */
 .pdfcard{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
 .pdfcard .ico{font-size:30px}
 .pdfcard .t{flex:1;min-width:180px}
@@ -108,9 +111,11 @@ main{max-width:1200px;margin:0 auto;padding:0 14px 44px}
 .pdfcard .t div{color:var(--muted);font-size:13px;margin-top:2px}
 .pdfcard a.dl{text-decoration:none;font-weight:600;font-size:14px;color:#161511;background:var(--accent);padding:10px 18px;border-radius:10px;white-space:nowrap}
 
+.banner{background:var(--card);border:1px dashed var(--accent);border-radius:12px;padding:12px 15px;font-size:13.5px;color:#ded9cf;margin-bottom:16px}
+.banner b{color:var(--accent)}
+
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center;padding:22px 14px 30px}
 
-/* ── Перегляд зображення ── */
 .lb{position:fixed;inset:0;z-index:100;background:rgba(8,8,7,.97);display:none;touch-action:none}
 .lb.open{display:block}
 .lb .stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -121,7 +126,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
 .lb.zoomed .zoomchip{display:block}
 .lb .bar{position:absolute;top:0;left:0;right:0;display:flex;flex-wrap:nowrap;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(rgba(8,8,7,.8),transparent);z-index:2}
 .lb .cap{font-size:13px;color:#ddd8cd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px}
-.lb .cnt{font-size:13px;color:#ddd8cd;white-space:nowrap;flex:none;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px}
+.lb .cnt{font-size:13px;color:#ddd8cd;white-space:nowrap;flex:none;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px;font-variant-numeric:tabular-nums}
 .lb .full{margin-left:auto;flex:none;font-size:13px;color:#ddd8cd;text-decoration:none;background:rgba(40,38,34,.8);padding:7px 12px;border-radius:99px;white-space:nowrap}
 @media(max-width:560px){.lb .cap{display:none}.lb .full .fl{display:none}.lb .full{padding:7px 11px;font-size:15px}}
 .lb button{appearance:none;border:0;cursor:pointer;background:rgba(40,38,34,.8);color:#eee;border-radius:99px;display:flex;align-items:center;justify-content:center}
@@ -147,7 +152,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   <div class="shade"></div>
   <div class="inner">
     <h1>Проєкт Шевченка</h1>
-    <p>Дворівнева квартира 160,5 м² — три спальні, три санвузли, відкрита кухня-їдальня-вітальня з другим світлом. Візуалізації по кімнатах, меблі з розмірами та повний комплект робочих креслень.</p>
+    <p>Дворівнева квартира 160,5 м² — майстер-спальня з ванною і гардеробною на першому поверсі, дитячі спальні на мансарді. Візуалізації по кімнатах, меблі з розмірами та робочі креслення.</p>
     <div class="stats" id="heroStats"></div>
   </div>
 </header>
@@ -179,8 +184,6 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
 <script src="catalog.js"></script>
 <script>
 (function(){
-  // Safari на iPhone ігнорує user-scalable=no, тож його власні жести масштабування
-  // сторінки гасимо вручну. Зум зображень це не зачіпає — він свій, у перегляді.
   ['gesturestart', 'gesturechange', 'gestureend'].forEach(function(t){
     document.addEventListener(t, function(e){ e.preventDefault(); }, { passive: false });
   });
@@ -188,8 +191,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   var D = window.GALLERY_DATA, C = window.CATALOG;
   var WIDTHS = D.gridWidths;
 
-  // ── доступ до зображень ──
-  var byKey = {};                       // "f1/001" -> метадані зображення
+  var byKey = {};
   D.sections.forEach(function(s){ s.items.forEach(function(it){ byKey[s.key + '/' + it.id] = { key: s.key, it: it }; }); });
   function full(k){ var e = byKey[k]; return 'img/' + e.key + '/full/' + e.it.id + '.webp'; }
   function at(k, w){ var e = byKey[k]; return 'img/' + e.key + '/w' + w + '/' + e.it.id + '.webp'; }
@@ -199,20 +201,23 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   }
   var GRID_SIZES = '(max-width:559px) calc((100vw - 38px)/2), (max-width:899px) calc((100vw - 48px)/3), calc((min(100vw,1200px) - 58px)/4)';
 
-  // ── підписи ──
-  var roomOf = {};                      // id кімнати -> назва
+  var roomOf = {};
   C.rooms.forEach(function(r){ roomOf[r.id] = r.title; });
-  var sheetTitle = {};                  // номер аркуша -> назва
-  C.sheets.forEach(function(s){ sheetTitle[s.page] = s.title; });
+  var planTitle = {};
+  C.plans.forEach(function(p){ planTitle[p.page] = p.title; });
   function dwgKey(page){ return 'dwg/p' + String(page).padStart(2, '0'); }
+  function pageOf(k){ return parseInt(k.slice(5), 10); }
+  function isDwg(k){ return k.indexOf('dwg/') === 0; }
   function capOf(k){
-    if (k.indexOf('dwg/') === 0) { var p = parseInt(k.slice(5), 10); return sheetTitle[p] || ('Аркуш ' + p); }
+    if (isDwg(k)) { var p = pageOf(k); return planTitle[p] || ('Ескіз меблів · аркуш ' + p); }
     var m = C.photos[k];
     return m ? roomOf[m.room] : '';
   }
+  function noOf(k){ var m = C.photos[k]; return m ? m.no : (isDwg(k) ? 'арк. ' + pageOf(k) : ''); }
   function subjectOf(k){ var m = C.photos[k]; return m ? m.subject : ''; }
 
-  // ── плитка ──
+  function badge(text){ var s = document.createElement('span'); s.className = 'no'; s.textContent = text; return s; }
+
   function tile(k, list, idx, sizes){
     var e = byKey[k], a = document.createElement('a');
     a.className = 'ph';
@@ -228,7 +233,8 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     im.onload = function(){ im.classList.add('ld'); };
     if (im.complete) im.classList.add('ld');
     a.appendChild(im);
-    var text = k.indexOf('dwg/') === 0 ? capOf(k) : subjectOf(k);
+    if (!isDwg(k)) a.appendChild(badge(noOf(k)));
+    var text = isDwg(k) ? capOf(k) : subjectOf(k);
     if (text) { var t = document.createElement('span'); t.className = 'tag'; t.textContent = text; a.appendChild(t); }
     a.addEventListener('click', function(ev){ ev.preventDefault(); open(list, idx); });
     return a;
@@ -239,45 +245,51 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     keys.forEach(function(k, i){ g.appendChild(tile(k, keys, i, rows ? '(max-width:600px) 100vw, 300px' : null)); });
     return g;
   }
-  function head(title, count, unit){
+  function head(title, count, unit, note){
     var h = document.createElement('div');
     h.className = 'sechead';
-    h.innerHTML = '<h2></h2><span class="count"></span>';
-    h.querySelector('h2').textContent = title;
-    h.querySelector('.count').textContent = count + ' ' + unit;
+    var h2 = document.createElement('h2'); h2.textContent = title;
+    var c = document.createElement('span'); c.className = 'count'; c.textContent = count + ' ' + unit;
+    h.appendChild(h2); h.appendChild(c);
+    if (note) { var n = document.createElement('span'); n.className = 'note'; n.textContent = note; h.appendChild(n); }
     return h;
   }
+  function scrollToMain(){ window.scrollTo({ top: document.querySelector('main').offsetTop - 56, behavior: 'smooth' }); }
 
-  // ── hero ──
   var heroKey = D.hero.key + '/' + D.hero.id, heroImg = document.getElementById('heroImg');
   heroImg.sizes = '100vw';
   heroImg.srcset = srcsetOf(heroKey) + (D.hero.big ? ', ' + D.hero.big + ' ' + D.hero.bigW + 'w' : '');
   heroImg.src = D.hero.big || full(heroKey);
   heroImg.setAttribute('fetchpriority', 'high');
   var photoCount = Object.keys(C.photos).length;
-  ['1-й поверх — 106,4 м²', '2-й поверх — 54,1 м²', photoCount + ' візуалізацій',
-   C.furniture.length + ' предметів меблів', C.sheets.length + ' аркушів креслень']
+  ['1-й поверх — 106,4 м²', 'мансарда — 54,1 м²', photoCount + ' візуалізацій',
+   C.furniture.length + ' позицій меблів', C.plans.length + ' планів']
     .forEach(function(t){ var c = document.createElement('span'); c.className = 'chip'; c.textContent = t; document.getElementById('heroStats').appendChild(c); });
 
-  // ── вкладка «Кімнати» ──
+  // ── Кімнати ──
   var vRooms = document.getElementById('v-rooms');
+  var note = document.createElement('div');
+  note.className = 'banner';
+  note.innerHTML = '<b>Номери на фото тимчасові.</b> Вони потрібні, щоб можна було сказати, що куди перекласти: ' +
+    'перша цифра — поверх, друга — номер кадру. Наприклад «1-14 в гардеробну».';
+  vRooms.appendChild(note);
+
   var keysByRoom = {};
   Object.keys(C.photos).forEach(function(k){ (keysByRoom[C.photos[k].room] = keysByRoom[C.photos[k].room] || []).push(k); });
+  C.rooms.forEach(function(r){ if (keysByRoom[r.id]) keysByRoom[r.id].sort(); });
   var allPhotoKeys = C.rooms.reduce(function(acc, r){ return acc.concat(keysByRoom[r.id] || []); }, []);
 
   var filters = document.createElement('div');
   filters.className = 'filters';
   var roomGrid = document.createElement('div');
-  var curRoom = 'all';
 
   function renderRoom(id){
-    curRoom = id;
     roomGrid.innerHTML = '';
     var groups = id === 'all' ? C.rooms : C.rooms.filter(function(r){ return r.id === id; });
     groups.forEach(function(r){
       var keys = keysByRoom[r.id] || [];
       if (!keys.length) return;
-      roomGrid.appendChild(head(r.title + (r.floor ? ' · ' + r.floor + '-й поверх' : ''), keys.length, keys.length === 1 ? 'фото' : 'фото'));
+      roomGrid.appendChild(head(r.title + (r.floor ? ' · ' + (r.floor === 2 ? 'мансарда' : '1-й поверх') : ''), keys.length, 'фото', r.note));
       roomGrid.appendChild(gridOf(keys));
     });
     Array.prototype.forEach.call(filters.querySelectorAll('button'), function(b){ b.classList.toggle('on', b.dataset.room === id); });
@@ -285,10 +297,10 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   function addFilter(id, title, n){
     var b = document.createElement('button');
     b.dataset.room = id;
-    b.innerHTML = '<span></span><span class="n"></span>';
-    b.firstChild.textContent = title;
-    b.lastChild.textContent = n;
-    b.addEventListener('click', function(){ renderRoom(id); window.scrollTo({ top: document.querySelector('main').offsetTop - 56, behavior: 'smooth' }); });
+    var s1 = document.createElement('span'); s1.textContent = title;
+    var s2 = document.createElement('span'); s2.className = 'n'; s2.textContent = n;
+    b.appendChild(s1); b.appendChild(s2);
+    b.addEventListener('click', function(){ renderRoom(id); scrollToMain(); });
     filters.appendChild(b);
   }
   addFilter('all', 'Усі', allPhotoKeys.length);
@@ -297,7 +309,7 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     if (!rs.length) return;
     var l = document.createElement('div');
     l.className = 'flabel';
-    l.textContent = fl ? fl + '-й поверх' : 'Загальні види';
+    l.textContent = fl === 1 ? '1-й поверх' : (fl === 2 ? 'мансарда' : 'загальні види');
     filters.appendChild(l);
     rs.forEach(function(r){ addFilter(r.id, r.title, keysByRoom[r.id].length); });
   });
@@ -305,29 +317,32 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   vRooms.appendChild(roomGrid);
   renderRoom('all');
 
-  // ── вкладка «Меблі» ──
+  // ── Меблі: одна картка = одна позиція, у кожної своє посилання ──
   var vFurn = document.getElementById('v-furniture');
-  var intro = document.createElement('div');
-  intro.className = 'pdfcard';
-  intro.innerHTML = '<span class="ico">🪑</span><div class="t"><b>Меблі індивідуального виготовлення</b>' +
-    '<div>' + C.furniture.length + ' предметів. У кожного — креслення з розмірами і візуалізації, де його видно.</div></div>';
-  vFurn.appendChild(intro);
+  var KINDS = { carpentry: 'Корпусні', upholstery: 'Мʼякі меблі', lighting: 'Світло', furniture: 'Готові меблі', other: 'Інше' };
+  var fIntro = document.createElement('div');
+  fIntro.className = 'banner';
+  fIntro.innerHTML = '<b>Кожна позиція окремо.</b> На одному аркуші буває кілька предметів — тут вони розділені, ' +
+    'щоб кнопкою «Посилання на позицію» можна було відправити підряднику лише його частину.';
+  vFurn.appendChild(fIntro);
 
-  C.furniture.forEach(function(f){
+  var fFilters = document.createElement('div');
+  fFilters.className = 'filters';
+  var fList = document.createElement('div');
+
+  function fCard(f){
     var card = document.createElement('div');
     card.className = 'fcard';
-    var dk = dwgKey(f.sheet);
-    var de = byKey[dk];
+    card.id = 'f-' + f.id;
+    var dk = dwgKey(f.sheet), de = byKey[dk];
 
     var top = document.createElement('div');
     top.className = 'top';
-
     var btn = document.createElement('button');
     btn.className = 'dwg';
     var di = document.createElement('img');
-    di.loading = 'lazy';
-    di.decoding = 'async';
-    di.sizes = '(max-width:600px) 100vw, 260px';
+    di.loading = 'lazy'; di.decoding = 'async';
+    di.sizes = '(max-width:600px) 100vw, 330px';
     di.srcset = srcsetOf(dk);
     di.src = at(dk, WIDTHS[1] || WIDTHS[0]);
     di.width = de.it.w; di.height = de.it.h;
@@ -338,28 +353,40 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
 
     var meta = document.createElement('div');
     meta.className = 'meta';
-    var h3 = document.createElement('h3'); h3.textContent = f.title;
+    var kind = document.createElement('span'); kind.className = 'kind'; kind.textContent = KINDS[f.kind] || 'Інше';
+    var h3 = document.createElement('h3'); h3.textContent = f.title + (f.qty > 1 ? ' · ' + f.qty + ' шт.' : '');
     var sub = document.createElement('div'); sub.className = 'sub';
-    sub.textContent = (f.room ? f.room.charAt(0).toUpperCase() + f.room.slice(1) + ' · ' : '') + 'аркуш ' + f.sheet;
-    meta.appendChild(h3); meta.appendChild(sub);
+    sub.textContent = (f.room ? f.room + ' · ' : '') + 'аркуш ' + f.sheet + ', позиція ' + f.n;
+    meta.appendChild(kind); meta.appendChild(h3); meta.appendChild(sub);
     var dl = document.createElement('dl');
-    [['Розміри', f.dims], ['Матеріал', f.material], ['На аркуші також', f.also]].forEach(function(p){
+    [['Розміри', f.dims], ['Матеріал', f.material]].forEach(function(p){
       if (!p[1]) return;
       var dt = document.createElement('dt'); dt.textContent = p[0];
       var dd = document.createElement('dd'); dd.textContent = p[1];
       dl.appendChild(dt); dl.appendChild(dd);
     });
     meta.appendChild(dl);
+    var share = document.createElement('button');
+    share.className = 'share';
+    share.textContent = '🔗 Посилання на позицію';
+    share.addEventListener('click', function(){
+      var u = location.origin + location.pathname + '#f=' + f.id;
+      function done(){ share.textContent = '✓ Скопійовано'; setTimeout(function(){ share.textContent = '🔗 Посилання на позицію'; }, 1800); }
+      if (navigator.clipboard) navigator.clipboard.writeText(u).then(done, function(){ prompt('Посилання:', u); });
+      else prompt('Посилання:', u);
+    });
+    meta.appendChild(share);
     top.appendChild(meta);
     card.appendChild(top);
 
-    if (f.photos.length) {
+    if (f.photos && f.photos.length) {
       var strip = document.createElement('div');
       strip.className = 'strip';
       var lbl = document.createElement('div'); lbl.className = 'lbl';
       lbl.textContent = 'На візуалізаціях (' + f.photos.length + ')';
       var row = document.createElement('div'); row.className = 'row';
       f.photos.forEach(function(k, i){
+        if (!byKey[k]) return;
         var a = document.createElement('a');
         a.href = full(k);
         var im = document.createElement('img');
@@ -369,41 +396,107 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
         im.src = at(k, WIDTHS[0]);
         im.alt = capOf(k) + ': ' + subjectOf(k);
         a.appendChild(im);
+        a.appendChild(badge(noOf(k)));
         a.addEventListener('click', function(ev){ ev.preventDefault(); open(f.photos, i); });
         row.appendChild(a);
       });
       strip.appendChild(lbl); strip.appendChild(row);
       card.appendChild(strip);
     }
-    vFurn.appendChild(card);
-  });
+    return card;
+  }
 
-  // ── вкладка «Креслення» ──
+  var fKinds = ['all'].concat(Object.keys(KINDS).filter(function(k){ return C.furniture.some(function(f){ return f.kind === k; }); }));
+  function renderFurn(kind, onlyId){
+    fList.innerHTML = '';
+    var items = C.furniture.filter(function(f){
+      if (onlyId) return f.id === onlyId;
+      return kind === 'all' || f.kind === kind;
+    });
+    if (onlyId && items.length) {
+      var back = document.createElement('div');
+      back.className = 'banner';
+      back.innerHTML = 'Показано одну позицію. <a href="#furniture" style="color:var(--accent)">Показати всі →</a>';
+      fList.appendChild(back);
+    }
+    fList.appendChild(head(onlyId ? 'Позиція' : (kind === 'all' ? 'Усі позиції' : KINDS[kind]), items.length, items.length === 1 ? 'позиція' : 'позицій'));
+    items.forEach(function(f){ fList.appendChild(fCard(f)); });
+    Array.prototype.forEach.call(fFilters.querySelectorAll('button'), function(b){ b.classList.toggle('on', !onlyId && b.dataset.kind === kind); });
+  }
+  fKinds.forEach(function(k){
+    var b = document.createElement('button');
+    b.dataset.kind = k;
+    var n = k === 'all' ? C.furniture.length : C.furniture.filter(function(f){ return f.kind === k; }).length;
+    var s1 = document.createElement('span'); s1.textContent = k === 'all' ? 'Усі' : KINDS[k];
+    var s2 = document.createElement('span'); s2.className = 'n'; s2.textContent = n;
+    b.appendChild(s1); b.appendChild(s2);
+    b.addEventListener('click', function(){ history.replaceState(null, '', '#furniture'); renderFurn(k); scrollToMain(); });
+    fFilters.appendChild(b);
+  });
+  vFurn.appendChild(fFilters);
+  vFurn.appendChild(fList);
+  renderFurn('all');
+
+  // ── Креслення: лише плани, згруповані за типом ──
   var vDwg = document.getElementById('v-drawings');
   var pc = document.createElement('div');
   pc.className = 'pdfcard';
   pc.innerHTML = '<span class="ico">📐</span><div class="t"><b>Креслення.pdf</b>' +
-    '<div>Повний комплект робочих креслень · ' + D.pdf.mb + ' МБ · ' + C.sheets.length + ' аркушів</div></div>' +
+    '<div>Повний комплект: ' + C.plans.length + ' планів + ' + C.furniture.length + ' позицій меблів · ' + D.pdf.mb + ' МБ</div></div>' +
     '<a class="dl" href="' + D.pdf.href + '" download="Креслення — проєкт Шевченка.pdf">Завантажити PDF</a>';
   vDwg.appendChild(pc);
 
-  [['plan', 'Плани'], ['furniture', 'Ескізи меблів']].forEach(function(g){
-    var pages = C.sheets.filter(function(s){ return s.group === g[0]; }).map(function(s){ return dwgKey(s.page); });
-    if (!pages.length) return;
-    vDwg.appendChild(head(g[1], pages.length, 'аркушів'));
-    vDwg.appendChild(gridOf(pages, true));
+  var dFilters = document.createElement('div');
+  dFilters.className = 'filters';
+  dFilters.style.marginTop = '16px';
+  var dList = document.createElement('div');
+  function renderPlans(type){
+    dList.innerHTML = '';
+    var types = type === 'all' ? C.planTypes : C.planTypes.filter(function(t){ return t.id === type; });
+    types.forEach(function(t){
+      var pages = C.plans.filter(function(p){ return p.type === t.id; }).map(function(p){ return dwgKey(p.page); });
+      if (!pages.length) return;
+      dList.appendChild(head(t.title, pages.length, pages.length === 1 ? 'аркуш' : 'аркуші'));
+      dList.appendChild(gridOf(pages, true));
+    });
+    Array.prototype.forEach.call(dFilters.querySelectorAll('button'), function(b){ b.classList.toggle('on', b.dataset.type === type); });
+  }
+  [{ id: 'all', title: 'Усі плани' }].concat(C.planTypes).forEach(function(t){
+    var b = document.createElement('button');
+    b.dataset.type = t.id;
+    var n = t.id === 'all' ? C.plans.length : C.plans.filter(function(p){ return p.type === t.id; }).length;
+    var s1 = document.createElement('span'); s1.textContent = t.title;
+    var s2 = document.createElement('span'); s2.className = 'n'; s2.textContent = n;
+    b.appendChild(s1); b.appendChild(s2);
+    b.addEventListener('click', function(){ renderPlans(t.id); scrollToMain(); });
+    dFilters.appendChild(b);
   });
+  vDwg.appendChild(dFilters);
+  vDwg.appendChild(dList);
+  renderPlans('all');
 
-  // ── вкладки ──
-  var TABS = [['rooms', 'Кімнати'], ['furniture', 'Меблі'], ['drawings', 'Креслення']];
+  // ── вкладки й адреса ──
+  var TABS = [['rooms', 'Кімнати'], ['furniture', 'Меблі'], ['drawings', 'Плани']];
   var tabsEl = document.getElementById('tabs');
-  function showTab(id){
-    if (!TABS.some(function(t){ return t[0] === id; })) id = 'rooms';
+  function activate(id){
     TABS.forEach(function(t){
       document.getElementById('v-' + t[0]).classList.toggle('on', t[0] === id);
       tabsEl.querySelector('[data-tab="' + t[0] + '"]').classList.toggle('on', t[0] === id);
     });
-    if (location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id);
+  }
+  function applyHash(){
+    var h = location.hash.slice(1);
+    var m = h.match(/^f=(.+)$/);
+    if (m) {
+      var id = decodeURIComponent(m[1]);
+      if (C.furniture.some(function(f){ return f.id === id; })) {
+        activate('furniture');
+        renderFurn('all', id);
+        return;
+      }
+    }
+    renderFurn('all');
+    activate(TABS.some(function(t){ return t[0] === h; }) ? h : 'rooms');
   }
   TABS.forEach(function(t){
     var b = document.createElement('button');
@@ -411,12 +504,15 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     b.dataset.tab = t[0];
     b.textContent = t[1];
     b.addEventListener('click', function(){
-      showTab(t[0]);
-      window.scrollTo({ top: document.querySelector('main').offsetTop - 56, behavior: 'smooth' });
+      if (location.hash.slice(1) !== t[0]) history.replaceState(null, '', '#' + t[0]);
+      if (t[0] === 'furniture') renderFurn('all');
+      activate(t[0]);
+      scrollToMain();
     });
     tabsEl.appendChild(b);
   });
-  showTab(location.hash.slice(1) || 'rooms');
+  applyHash();
+  window.addEventListener('hashchange', function(){ if (!isOpen) applyHash(); });
 
   // ── перегляд зображення ──
   var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'),
@@ -428,8 +524,6 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     cur = (i + list.length) % list.length;
     var k = list[cur];
     resetZoom(false);
-    // Спершу вже завантажена мініатюра — щоб зображення з'явилось миттєво,
-    // потім підмінюємо на повний файл, коли він приїде.
     var my = ++token;
     lb.classList.add('loading');
     lbImg.src = at(k, WIDTHS[2] || WIDTHS[WIDTHS.length - 1]);
@@ -438,9 +532,10 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     big.onerror = function(){ if (my === token) lb.classList.remove('loading'); };
     big.src = full(k);
     lbCap.textContent = capOf(k);
-    lbCnt.textContent = list.length > 1 ? (cur + 1) + ' / ' + list.length : capOf(k);
+    var n = noOf(k);
+    lbCnt.textContent = (n ? n + (list.length > 1 ? ' · ' : '') : '') + (list.length > 1 ? (cur + 1) + '/' + list.length : '');
     lbFull.href = full(k);
-    [cur + 1, cur - 1].forEach(function(n){ var p = new Image(); p.src = full(list[(n + list.length) % list.length]); });
+    [cur + 1, cur - 1].forEach(function(x){ var p = new Image(); p.src = full(list[(x + list.length) % list.length]); });
   }
   function open(items, i){
     list = items;
@@ -470,8 +565,6 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
   });
 
   // ── зум і панорамування ──
-  // Жести обробляє скрипт, а не браузер: два пальці масштабують, один палець
-  // по збільшеному кресленню рухає його, а гортання працює лише при 100%.
   var stage = lb.querySelector('.stage'), zoomBtn = document.getElementById('lbZoom');
   var MAXZ = 6;
   var sc = 1, ox = 0, oy = 0;
@@ -567,8 +660,6 @@ footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-a
     e.preventDefault();
     zoomTo(sc * (e.deltaY < 0 ? 1.18 : 1 / 1.18), e.clientX, e.clientY, false);
   }, { passive: false });
-  // Після подвійного тапу браузер шле ще й dblclick — його треба пропустити,
-  // інакше зум відразу скасовується сам собою.
   lbImg.addEventListener('dblclick', function(e){
     if (e.timeStamp - lastTouchEnd < 800) return;
     zoomTo(sc > 1.01 ? 1 : 2.5, e.clientX, e.clientY, true);
